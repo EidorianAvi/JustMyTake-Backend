@@ -2,6 +2,9 @@ const express = require('express');
 const router = express.Router();
 const User = require('../models/User');
 const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken');
+require('dotenv/config');
+
 
 
 //Get all the Users
@@ -44,11 +47,13 @@ router.post('/add-user', async (req, res) => {
 
 //User login
 router.post('/login', async (req, res) => {
+    const user = await User.findOne({ username: req.body.username });
+    
     try{
-        const user = await User.findOne({ username: req.body.username });
         const match = await bcrypt.compare(req.body.password, user.password);
+        const accessToken = jwt.sign(JSON.stringify(user), process.env.ACCESS_TOKEN_SECRET)
         if(match){
-            res.json({ message: "Successful Login" });
+            res.json({ accessToken: accessToken });
         } else {
             res.json({ message: "Invalid Credentials" });
         }
