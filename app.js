@@ -4,9 +4,17 @@ const mongoose = require('mongoose');
 const cors = require('cors');
 require('dotenv/config');
 
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+
 
 //Enable CORS
 app.use(cors());
+
+// Imported Routes
+const gameReviewRoute = require('./routes/gameReviews');
+
+app.use('/game-reviews', gameReviewRoute);
 
 //ROOT Route
 app.get('/', (req, res) => {
