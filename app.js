@@ -26,9 +26,9 @@ app.get('/', (req, res) => {
 //Connect to MongoDB database
 mongoose.connect(
     process.env.DB_CONNECTION,
-    { useNewUrlParser: true, useUnifiedTopology: true}, 
+    { useNewUrlParser: true, useUnifiedTopology: true, useCreateIndex: true }, 
     () => console.log('Connected to DB')
 );
 
-//Listen to port 6000
+//Listen to port 8000
 app.listen(8000);

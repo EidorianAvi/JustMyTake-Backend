@@ -1,6 +1,8 @@
 const express = require('express');
 const router = express.Router();
 const User = require('../models/User');
+const bcrypt = require('bcrypt');
+
 
 //Get all the Users
 router.get('/', async (req, res) => {
@@ -24,17 +26,34 @@ router.get('/:id', async(req, res) => {
 
 //Post a new user
 router.post('/add-user', async (req, res) => {
-    const user = new User({
-        username: req.body.username,
-        password: req.body.password,
-        email: req.body.email
-    });
-
     try {
+        const hashedPassword = await bcrypt.hash(req.body.password, 10);
+        
+        const user = new User({
+            username: req.body.username,
+            password: hashedPassword,
+            email: req.body.email
+        });
+
         const savedUser = await user.save();
         res.json(savedUser);
     } catch(e) {
-        res.json(e);
+        res.json({ message: "Error"});
+    }
+});
+
+//User login
+router.post('/login', async (req, res) => {
+    try{
+        const user = await User.findOne({ username: req.body.username });
+        const match = await bcrypt.compare(req.body.password, user.password);
+        if(match){
+            res.json({ message: "Successful Login" });
+        } else {
+            res.json({ message: "Invalid Credentials" });
+        }
+    } catch(e) {
+        console.log(e)
     }
 });
 
