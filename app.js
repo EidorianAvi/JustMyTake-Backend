@@ -12,8 +12,10 @@ app.use(express.urlencoded({ extended: true }));
 app.use(cors());
 
 // Imported Routes
+const userRoute = require('./routes/users');
 const gameReviewRoute = require('./routes/gameReviews');
 
+app.use('/users', userRoute);
 app.use('/game-reviews', gameReviewRoute);
 
 //ROOT Route

@@ -12,7 +12,11 @@ const GameReviewSchema = mongoose.Schema({
     publisher: String,
     review: {
         type: String,
-        required: true,
+        required: true
+    },
+    private: {
+        type: Boolean,
+        required: true
     }
 }, { timestamps: true });
 

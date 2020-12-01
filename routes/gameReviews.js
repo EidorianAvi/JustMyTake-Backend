@@ -28,7 +28,8 @@ router.post('/add-review', async (req, res) => {
         author: req.body.author,
         game: req.body.game,
         publisher: req.body.publisher,
-        review: req.body.review
+        review: req.body.review,
+        private: req.body.private
     });
 
     try {
@@ -48,7 +49,8 @@ router.patch('/:id', async (req, res) => {
                 author: req.body.author,
                 game: req.body.game,
                 publisher: req.body.publisher,
-                review: req.body.review
+                review: req.body.review,
+                private: req.body.private
             }});
 
         res.json(updatedReview);
