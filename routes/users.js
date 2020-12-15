@@ -58,7 +58,7 @@ router.post('/login', async (req, res) => {
             res.json({ message: "Invalid Credentials" });
         }
     } catch(e) {
-        console.log(e)
+        res.json({ message: "Invalid Credentials" });
     }
 });
 
